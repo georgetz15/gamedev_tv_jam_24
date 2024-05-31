@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,15 +6,11 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private int health = 1;
+    [SerializeField] private float moveSpeed = 1.0f;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        GetComponent<Rigidbody2D>().velocity = moveSpeed * Vector2.left;
     }
 
     public void DealDamage(int damage)

@@ -66,4 +66,15 @@ public class PlayerController : MonoBehaviour
     {
         isFiring = value.Get<float>() > 0.5;
     }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        // Enemy => deal damage
+        var enemyCtrl = other.gameObject.GetComponent<EnemyController>();
+        if (enemyCtrl)
+        {
+            enemyCtrl.DealDamage(1000);
+            Destroy(gameObject);
+        }
+    }
 }

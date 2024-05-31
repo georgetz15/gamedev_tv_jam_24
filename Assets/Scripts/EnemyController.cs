@@ -22,4 +22,9 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void AddMoveSpeed(float speed)
+    {
+        GetComponent<Rigidbody2D>().velocity += speed * Vector2.left;
+    }
 }

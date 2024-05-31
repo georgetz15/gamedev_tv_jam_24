@@ -65,9 +65,5 @@ public class PlayerController : MonoBehaviour
     private void OnFire(InputValue value)
     {
         isFiring = value.Get<float>() > 0.5;
-        if (!isFiring)
-        {
-            fireTime = 0;
-        }
     }
 }

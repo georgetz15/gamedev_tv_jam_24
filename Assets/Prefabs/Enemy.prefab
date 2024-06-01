@@ -45,3 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1
+  moveSpeed: 1
+  <powerupDropChance>k__BackingField: 0
+  <powerup>k__BackingField: {fileID: 5432203479951039899, guid: 1b5a02bcade566e419a1bf796c71b9a4, type: 3}

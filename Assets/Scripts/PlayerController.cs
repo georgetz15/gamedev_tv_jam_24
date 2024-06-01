@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 1.0f;
     [SerializeField] private float fireRate = 1.0f;
+    [SerializeField] private float maxFireRate = 5.0f;
     [SerializeField] private GameObject bulletSpawnPoint;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float bulletSpeed = 5.0f;
@@ -75,6 +76,20 @@ public class PlayerController : MonoBehaviour
         {
             enemyCtrl.DealDamage(1000);
             Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Consume powerup
+        if (other.gameObject.CompareTag("Powerup"))
+        {
+            var powerup = other.gameObject.GetComponent<PowerupController>();
+            fireRate *= powerup.fireRateMultiplier;
+            if (fireRate > maxFireRate)
+            {
+                fireRate = maxFireRate;
+            }
         }
     }
 }

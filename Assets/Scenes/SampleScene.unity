@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 167814297}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -204,6 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7.5
   fireRate: 2
+  maxFireRate: 7.5
   bulletSpawnPoint: {fileID: 1314907169}
   bulletPrefab: {fileID: 4705308679339354003, guid: 6888f1f1d001b4e4b8d1ebfd5d1f9164, type: 3}
   bulletSpeed: 12

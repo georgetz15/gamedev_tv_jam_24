@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private int health = 1;
     [SerializeField] private float moveSpeed = 1.0f;
+    [field: SerializeField] public float powerupDropChance { get; private set; } = 0.0f;
+    [field: SerializeField] public GameObject powerup { get; private set; }
 
     private void Awake()
     {
@@ -19,6 +22,12 @@ public class EnemyController : MonoBehaviour
 
         if (health <= 0)
         {
+            var dropRoll = Random.Range(0.0f, 1.0f);
+            if (dropRoll < powerupDropChance)
+            {
+                Instantiate(powerup, transform.position, Quaternion.identity);
+            }
+
             Destroy(gameObject);
         }
     }

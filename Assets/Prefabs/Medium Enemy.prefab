@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: health
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4208870429186742762, guid: 4491abe7787e35441ab6277673e338c3, type: 3}
+      propertyPath: <powerupDropChance>k__BackingField
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8446123568752950267, guid: 4491abe7787e35441ab6277673e338c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

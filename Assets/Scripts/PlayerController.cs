@@ -91,5 +91,12 @@ public class PlayerController : MonoBehaviour
                 fireRate = maxFireRate;
             }
         }
+
+        // Hit by bullet => destroyed
+        var bulletCtrl = other.gameObject.GetComponent<EnemyBulletController>();
+        if (bulletCtrl)
+        {
+            Destroy(gameObject);
+        }
     }
 }

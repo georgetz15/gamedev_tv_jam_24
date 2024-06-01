@@ -10,6 +10,12 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float moveSpeed = 1.0f;
     [field: SerializeField] public float powerupDropChance { get; private set; } = 0.0f;
     [field: SerializeField] public GameObject powerup { get; private set; }
+    [SerializeField] private float fireRate = 1.5f;
+    [SerializeField] private float fireChance = 0.5f;
+    [SerializeField] private GameObject bulletSpawnPoint;
+    [SerializeField] private GameObject bullet;
+
+    private float fireTime = 0.0f;
 
     private void Awake()
     {
@@ -35,5 +41,21 @@ public class EnemyController : MonoBehaviour
     public void AddMoveSpeed(float speed)
     {
         GetComponent<Rigidbody2D>().velocity += speed * Vector2.left;
+    }
+
+    private void FixedUpdate()
+    {
+        // Fire at player
+        fireTime -= Time.fixedDeltaTime;
+        if (fireTime < 0)
+        {
+            var fireRoll = Random.value;
+            if (fireRoll < fireChance)
+            {
+                Instantiate(bullet, bulletSpawnPoint.transform.position, Quaternion.identity);
+            }
+
+            fireTime += 1.0f / fireRate;
+        }
     }
 }

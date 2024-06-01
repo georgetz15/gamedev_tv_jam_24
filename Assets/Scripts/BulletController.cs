@@ -15,6 +15,14 @@ public class BulletController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        // Enemy => deal damage
+        var enemyCtrl = other.gameObject.GetComponent<EnemyController>();
+        if (enemyCtrl)
+        {
+            enemyCtrl.DealDamage(damage);
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)

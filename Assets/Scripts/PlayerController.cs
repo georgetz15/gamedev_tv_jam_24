@@ -31,6 +31,10 @@ public class PlayerController : MonoBehaviour
         {
             GetComponent<PlayerInput>().SwitchCurrentActionMap("Player");
         });
+        GameManager.instance.onFinishGame.AddListener(() =>
+        {
+            GetComponent<PlayerInput>().SwitchCurrentActionMap("UI");
+        });
     }
 
     // Update is called once per frame
@@ -95,7 +99,7 @@ public class PlayerController : MonoBehaviour
         if (enemyCtrl)
         {
             enemyCtrl.DealDamage(1000);
-            Destroy(gameObject);
+            Rekt();
         }
     }
 
@@ -116,12 +120,13 @@ public class PlayerController : MonoBehaviour
         var bulletCtrl = other.gameObject.GetComponent<EnemyBulletController>();
         if (bulletCtrl)
         {
-            Destroy(gameObject);
+            Rekt();
         }
     }
 
-    private void OnDestroy()
+    private void Rekt()
     {
         playerDestroyed.Invoke();
+        gameObject.SetActive(false);
     }
 }

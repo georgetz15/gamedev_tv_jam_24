@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using UIControllers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -11,12 +12,16 @@ namespace Managers
     {
         public static GameManager instance { get; private set; }
         [SerializeField] private GameObject pauseMenu;
-        [FormerlySerializedAs("pointsText")] [SerializeField] private TMP_Text scoreText;
+
+        [SerializeField] private TMP_Text scoreText;
+
+        [SerializeField] private FinishMenuController finishMenu;
 
         public UnityEvent onResumeGame = new();
+        public UnityEvent onFinishGame = new();
 
         private int score = 0;
-        
+
         private void Awake()
         {
             // If there is an instance, and it's not me, delete myself.
@@ -36,6 +41,20 @@ namespace Managers
         {
             score = 0;
             SceneManager.LoadScene("SampleScene");
+        }
+
+        public void FinishGameDeath()
+        {
+            // Show finish menu with death text
+            finishMenu.ShowMenu(win: false, score);
+            onFinishGame.Invoke();
+        }
+
+        public void FinishGameWin()
+        {
+            // Show finish menu with win text
+            finishMenu.ShowMenu(win: true, score);
+            onFinishGame.Invoke();
         }
 
         public void QuitGame()

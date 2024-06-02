@@ -21,6 +21,7 @@ namespace Managers
         public UnityEvent onFinishGame = new();
 
         private int score = 0;
+        private bool finishedGame = false;
 
         private void Awake()
         {
@@ -42,13 +43,17 @@ namespace Managers
         public void RestartGame()
         {
             score = 0;
-            SceneManager.LoadScene("SampleScene");
             Cursor.visible = false;
+            finishedGame = false;
+            SceneManager.LoadScene("SampleScene");
             AudioManager.instance.StartBackingTrack();
         }
 
         public void FinishGameDeath()
         {
+            if (finishedGame) return;
+
+            finishedGame = true;
             // Show finish menu with death text
             finishMenu.ShowMenu(win: false, score);
             onFinishGame.Invoke();
@@ -57,6 +62,9 @@ namespace Managers
 
         public void FinishGameWin()
         {
+            if (finishedGame) return;
+
+            finishedGame = true;
             // Show finish menu with win text
             finishMenu.ShowMenu(win: true, score);
             onFinishGame.Invoke();

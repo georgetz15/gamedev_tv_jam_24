@@ -9,13 +9,17 @@ namespace UIControllers
 
         public void ShowForWave(int waveIx)
         {
-            if (waveIx == 4)
+            switch (waveIx)
             {
-                text.text = $"WARNING!\nFINAL WAVE!\nBRACE YOURSELF";
-            }
-            else
-            {
-                text.text = $"WARNING!\nWAVE {waveIx + 2} INCOMING";
+                case 5:
+                    gameObject.SetActive(false);
+                    return;
+                case 4:
+                    text.text = $"WARNING!\nFINAL WAVE!\nBRACE YOURSELF";
+                    break;
+                default:
+                    text.text = $"WARNING!\nWAVE {waveIx + 2} INCOMING";
+                    break;
             }
 
             gameObject.SetActive(true);

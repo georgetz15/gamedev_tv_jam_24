@@ -37,7 +37,9 @@ public class EnemyController : MonoBehaviour
                 Instantiate(powerup, transform.position, Quaternion.identity);
                 AudioManager.instance.PlayPowerupDropped();
             }
-
+            
+            AudioManager.instance.PlayEnemyDestroyed();
+            GameManager.instance.AddScore(scoreReward);
             Destroy(gameObject);
         }
     }
@@ -62,11 +64,5 @@ public class EnemyController : MonoBehaviour
 
             fireTime += 1.0f / fireRate;
         }
-    }
-
-    private void OnDestroy()
-    {
-        AudioManager.instance.PlayEnemyDestroyed();
-        GameManager.instance.AddScore(scoreReward);
     }
 }

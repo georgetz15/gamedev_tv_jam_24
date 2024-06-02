@@ -44,6 +44,7 @@ namespace Managers
             score = 0;
             SceneManager.LoadScene("SampleScene");
             Cursor.visible = false;
+            AudioManager.instance.StartBackingTrack();
         }
 
         public void FinishGameDeath()

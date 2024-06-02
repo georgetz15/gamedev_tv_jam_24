@@ -35,6 +35,7 @@ public class EnemyController : MonoBehaviour
             if (dropRoll < powerupDropChance)
             {
                 Instantiate(powerup, transform.position, Quaternion.identity);
+                AudioManager.instance.PlayPowerupDropped();
             }
 
             Destroy(gameObject);
@@ -55,6 +56,7 @@ public class EnemyController : MonoBehaviour
             var fireRoll = Random.value;
             if (fireRoll < fireChance)
             {
+                AudioManager.instance.PlayEnemyFire();
                 Instantiate(bullet, bulletSpawnPoint.transform.position, Quaternion.identity);
             }
 
@@ -64,6 +66,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnDestroy()
     {
+        AudioManager.instance.PlayEnemyDestroyed();
         GameManager.instance.AddScore(scoreReward);
     }
 }

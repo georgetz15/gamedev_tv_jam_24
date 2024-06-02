@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
                     bulletSpawnPoint.transform.position,
                     bulletSpawnPoint.transform.rotation);
                 bullet.GetComponent<Rigidbody2D>().velocity = Vector2.right * bulletSpeed;
+                AudioManager.instance.PlayPlayerFire();
 
                 // Reset timer
                 fireTime += 1.0f / fireRate;
@@ -114,6 +115,7 @@ public class PlayerController : MonoBehaviour
             {
                 fireRate = maxFireRate;
             }
+            AudioManager.instance.PlayPowerupReceived();
         }
 
         // Hit by bullet => destroyed
@@ -126,6 +128,7 @@ public class PlayerController : MonoBehaviour
 
     private void Rekt()
     {
+        AudioManager.instance.PlayPlayerDestroyed();
         playerDestroyed.Invoke();
         gameObject.SetActive(false);
     }

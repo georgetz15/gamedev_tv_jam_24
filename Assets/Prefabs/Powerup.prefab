@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f413c9b419627d469d701922b03948c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <fireRateMultiplier>k__BackingField: 1.1
+  <fireRateMultiplier>k__BackingField: 1.25
   moveSpeed: 1.33
 --- !u!212 &4627439018501904146
 SpriteRenderer:

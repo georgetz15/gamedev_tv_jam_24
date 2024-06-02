@@ -208,6 +208,21 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 1314907169}
   bulletPrefab: {fileID: 4705308679339354003, guid: 6888f1f1d001b4e4b8d1ebfd5d1f9164, type: 3}
   bulletSpeed: 12
+  playerDestroyed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1744751093}
+        m_TargetAssemblyTypeName: Managers.GameManager, Assembly-CSharp
+        m_MethodName: RestartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!50 &167814297
 Rigidbody2D:
   serializedVersion: 4
@@ -485,6 +500,24 @@ MonoBehaviour:
   basicEnemy: {fileID: 869505018764829322, guid: e41a70842815e1345b8cbbc5c74227e1, type: 3}
   mediumEnemy: {fileID: 869505018764829322, guid: ef79bcb19a0e720458ae0d29e0084c96, type: 3}
   hardEnemy: {fileID: 869505018764829322, guid: c70419c6ad9c9424ab320f1b371df970, type: 3}
+  allWavesCompleted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1744751093}
+        m_TargetAssemblyTypeName: Managers.GameManager, Assembly-CSharp
+        m_MethodName: RestartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  waveCompleted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,6 +791,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 167814294}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1744751091
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1744751092}
+  - component: {fileID: 1744751093}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1744751092
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744751091}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1744751093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744751091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 262327db0366dff41b3fa6191f121c1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8646866076034246660
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -829,3 +906,4 @@ SceneRoots:
   - {fileID: 167814294}
   - {fileID: 817861253}
   - {fileID: 608495009}
+  - {fileID: 1744751092}

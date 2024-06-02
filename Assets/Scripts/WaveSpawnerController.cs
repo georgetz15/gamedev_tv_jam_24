@@ -5,6 +5,7 @@ using System.Linq;
 using SOs;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 internal enum EnemyType
@@ -33,14 +34,26 @@ public class WaveSpawnerController : MonoBehaviour
     [SerializeField] private GameObject mediumEnemy;
     [SerializeField] private GameObject hardEnemy;
 
+    // Events
+    [SerializeField] private UnityEvent allWavesCompleted = new();
+    [SerializeField] private UnityEvent<int> waveCompleted = new();
+
     private int currentWaveIx = 0;
     private float spawnTimer = 0.0f;
 
     private void FixedUpdate()
     {
-        if (currentWaveIx >= waves.Length) return;
+        // All waves complete
+        if (currentWaveIx >= waves.Length)
+        {
+            allWavesCompleted.Invoke();
+            return;
+        }
 
+        // Decrement spawn timer 
         spawnTimer -= Time.fixedDeltaTime;
+        
+        // Spawn next enemy
         if (spawnTimer < 0)
         {
             var enemyType = SelectEnemyType(waves[currentWaveIx]);
@@ -62,10 +75,20 @@ public class WaveSpawnerController : MonoBehaviour
                     throw new ArgumentOutOfRangeException();
             }
 
+            // Wave completed
             if (waves[currentWaveIx].numEnemies == 0)
             {
+                waveCompleted.Invoke(currentWaveIx);
+
+                // Get next wave
                 currentWaveIx++;
-                if (currentWaveIx >= waves.Length) return;
+
+                // All waves complete
+                if (currentWaveIx >= waves.Length)
+                {
+                    allWavesCompleted.Invoke();
+                    return;
+                }
             }
 
             spawnTimer += 1.0f / waves[currentWaveIx].spawnRate;

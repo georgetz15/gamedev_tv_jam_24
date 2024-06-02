@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 
@@ -13,6 +15,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject bulletSpawnPoint;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float bulletSpeed = 5.0f;
+
+    [SerializeField] private UnityEvent playerDestroyed = new();
 
     private Vector3 moveDirection = Vector3.zero;
     private bool isFiring = false;
@@ -98,5 +102,10 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        playerDestroyed.Invoke();
     }
 }

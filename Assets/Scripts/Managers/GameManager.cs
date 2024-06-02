@@ -35,12 +35,15 @@ namespace Managers
             }
 
             scoreText.text = "0";
+
+            Cursor.visible = false;
         }
 
         public void RestartGame()
         {
             score = 0;
             SceneManager.LoadScene("SampleScene");
+            Cursor.visible = false;
         }
 
         public void FinishGameDeath()
@@ -48,6 +51,7 @@ namespace Managers
             // Show finish menu with death text
             finishMenu.ShowMenu(win: false, score);
             onFinishGame.Invoke();
+            Cursor.visible = true;
         }
 
         public void FinishGameWin()
@@ -55,6 +59,7 @@ namespace Managers
             // Show finish menu with win text
             finishMenu.ShowMenu(win: true, score);
             onFinishGame.Invoke();
+            Cursor.visible = true;
         }
 
         public void QuitGame()
@@ -66,6 +71,7 @@ namespace Managers
         {
             Time.timeScale = 0;
             pauseMenu.GetComponent<PauseMenuController>().ShowMenu();
+            Cursor.visible = true;
         }
 
         public void ResumeGame()
@@ -73,6 +79,7 @@ namespace Managers
             Time.timeScale = 1;
             pauseMenu.SetActive(false);
             onResumeGame.Invoke();
+            Cursor.visible = false;
         }
 
         public void AddScore(int points)

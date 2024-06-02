@@ -33,65 +33,100 @@ public class WaveSpawnerController : MonoBehaviour
     [SerializeField] private GameObject basicEnemy;
     [SerializeField] private GameObject mediumEnemy;
     [SerializeField] private GameObject hardEnemy;
+    [SerializeField] private float waitTimeSec = 5.0f;
 
     // Events
     [SerializeField] private UnityEvent allWavesCompleted = new();
+    [SerializeField] private UnityEvent<int> waveStarted = new();
     [SerializeField] private UnityEvent<int> waveCompleted = new();
 
     private int currentWaveIx = 0;
     private float spawnTimer = 0.0f;
+    private float waitTimer;
+
+    enum State
+    {
+        Waiting,
+        Spawning,
+        Finished,
+    }
+
+    private State state = State.Waiting;
+
+    private void Awake()
+    {
+        waitTimer = waitTimeSec;
+    }
 
     private void FixedUpdate()
     {
-        // All waves complete
-        if (currentWaveIx >= waves.Length)
+        switch (state)
         {
-            allWavesCompleted.Invoke();
-            return;
-        }
-
-        // Decrement spawn timer 
-        spawnTimer -= Time.fixedDeltaTime;
-        
-        // Spawn next enemy
-        if (spawnTimer < 0)
-        {
-            var enemyType = SelectEnemyType(waves[currentWaveIx]);
-            switch (enemyType)
-            {
-                case EnemyType.Basic:
-                    SpawnEnemy(waves[currentWaveIx], basicEnemy);
-                    waves[currentWaveIx].numBasicEnemies -= 1;
-                    break;
-                case EnemyType.Medium:
-                    SpawnEnemy(waves[currentWaveIx], mediumEnemy);
-                    waves[currentWaveIx].numMediumEnemies -= 1;
-                    break;
-                case EnemyType.Hard:
-                    SpawnEnemy(waves[currentWaveIx], hardEnemy);
-                    waves[currentWaveIx].numHardEnemies -= 1;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            // Wave completed
-            if (waves[currentWaveIx].numEnemies == 0)
-            {
-                waveCompleted.Invoke(currentWaveIx);
-
-                // Get next wave
-                currentWaveIx++;
-
+            case State.Waiting:
+                waitTimer -= Time.fixedDeltaTime;
+                if (waitTimer > 0) return;
+                // Wait finished
+                waveStarted.Invoke(currentWaveIx);
+                state = State.Spawning;
+                waitTimer = waitTimeSec;
+                return;
+            case State.Spawning:
                 // All waves complete
                 if (currentWaveIx >= waves.Length)
                 {
                     allWavesCompleted.Invoke();
+                    state = State.Finished;
                     return;
                 }
-            }
 
-            spawnTimer += 1.0f / waves[currentWaveIx].spawnRate;
+                // Decrement spawn timer 
+                spawnTimer -= Time.fixedDeltaTime;
+                if (spawnTimer > 0) return;
+
+                // Spawn next enemy
+                var enemyType = SelectEnemyType(waves[currentWaveIx]);
+                switch (enemyType)
+                {
+                    case EnemyType.Basic:
+                        SpawnEnemy(waves[currentWaveIx], basicEnemy);
+                        waves[currentWaveIx].numBasicEnemies -= 1;
+                        break;
+                    case EnemyType.Medium:
+                        SpawnEnemy(waves[currentWaveIx], mediumEnemy);
+                        waves[currentWaveIx].numMediumEnemies -= 1;
+                        break;
+                    case EnemyType.Hard:
+                        SpawnEnemy(waves[currentWaveIx], hardEnemy);
+                        waves[currentWaveIx].numHardEnemies -= 1;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                // Wave completed
+                if (waves[currentWaveIx].numEnemies == 0)
+                {
+                    waveCompleted.Invoke(currentWaveIx);
+                    state = State.Waiting;
+
+                    // Get next wave
+                    currentWaveIx++;
+
+                    // All waves complete
+                    if (currentWaveIx >= waves.Length)
+                    {
+                        allWavesCompleted.Invoke();
+                        state = State.Finished;
+                        return;
+                    }
+                }
+
+                spawnTimer += 1.0f / waves[currentWaveIx].spawnRate;
+                return;
+            case State.Finished:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 

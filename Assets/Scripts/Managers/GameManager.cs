@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace Managers
@@ -7,6 +8,9 @@ namespace Managers
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance { get; private set; }
+        [SerializeField] private GameObject pauseMenu;
+
+        public UnityEvent onResumeGame = new();
 
         private void Awake()
         {
@@ -33,12 +37,15 @@ namespace Managers
 
         public void PauseGame()
         {
-            throw new NotImplementedException();
+            Time.timeScale = 0;
+            pauseMenu.GetComponent<PauseMenuController>().ShowMenu();
         }
 
         public void ResumeGame()
         {
-            throw new NotImplementedException();
+            Time.timeScale = 1;
+            pauseMenu.SetActive(false);
+            onResumeGame.Invoke();
         }
     }
 }

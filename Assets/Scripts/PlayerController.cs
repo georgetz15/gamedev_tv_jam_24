@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,12 +24,17 @@ public class PlayerController : MonoBehaviour
     private float fireTime = 0.0f;
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
+        // When resuming the game => use normal action map
+        GameManager.instance.onResumeGame.AddListener(() =>
+        {
+            GetComponent<PlayerInput>().SwitchCurrentActionMap("Player");
+        });
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         // Movement
         var newPos = transform.position + Time.fixedDeltaTime * moveSpeed * moveDirection.normalized;
@@ -70,6 +76,16 @@ public class PlayerController : MonoBehaviour
     private void OnFire(InputValue value)
     {
         isFiring = value.Get<float>() > 0.5;
+    }
+
+    private void OnPauseGame(InputValue value)
+    {
+        if (value.Get<float>() > 0.5)
+        {
+            var playerInput = GetComponent<PlayerInput>();
+            playerInput.SwitchCurrentActionMap("UI");
+            GameManager.instance.PauseGame();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)

@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
@@ -14,6 +16,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float fireChance = 0.5f;
     [SerializeField] private GameObject bulletSpawnPoint;
     [SerializeField] private GameObject bullet;
+    [SerializeField] private int scoreReward = 10;
 
     private float fireTime = 0.0f;
 
@@ -57,5 +60,10 @@ public class EnemyController : MonoBehaviour
 
             fireTime += 1.0f / fireRate;
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.AddScore(scoreReward);
     }
 }

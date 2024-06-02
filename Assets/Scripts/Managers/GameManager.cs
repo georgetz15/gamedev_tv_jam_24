@@ -1,7 +1,9 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace Managers
 {
@@ -9,9 +11,12 @@ namespace Managers
     {
         public static GameManager instance { get; private set; }
         [SerializeField] private GameObject pauseMenu;
+        [FormerlySerializedAs("pointsText")] [SerializeField] private TMP_Text scoreText;
 
         public UnityEvent onResumeGame = new();
 
+        private int score = 0;
+        
         private void Awake()
         {
             // If there is an instance, and it's not me, delete myself.
@@ -23,10 +28,13 @@ namespace Managers
             {
                 instance = this;
             }
+
+            scoreText.text = "0";
         }
 
         public void RestartGame()
         {
+            score = 0;
             SceneManager.LoadScene("SampleScene");
         }
 
@@ -46,6 +54,12 @@ namespace Managers
             Time.timeScale = 1;
             pauseMenu.SetActive(false);
             onResumeGame.Invoke();
+        }
+
+        public void AddScore(int points)
+        {
+            score += points;
+            scoreText.text = score.ToString();
         }
     }
 }
